@@ -56,6 +56,7 @@
     },
     "scripts": {
         "build": "node_modules/webpack/bin/webpack.js --config webpack/webpack.config.js -p --display-error-details --progress --optimize-minimize",
+        "prebuild": "npm run test:unit",
         "build:demo": "webpack --config webpack/webpack.config-demo.js -p --display-error-details --progress --optimize-minimize",
         "dev": "webpack-dev-server --config webpack/webpack.config-dev.js --open",
         "modules:debug": "./docker/debug.sh",
@@ -67,7 +68,6 @@
         "test:watch": "nyc mocha -w test/**/*-test.js",
         "lint": "./node_modules/.bin/eslint src",
         "lint-fixup": "./node_modules/.bin/eslint src --ext .js,.jsx --fix",
-        "postinstall": "npm run build"
     },
     "repository": {
         "type": "git",
