@@ -59,13 +59,15 @@ class ReactJsonView extends React.PureComponent {
         style: {},
         validationMessage: 'Validation Error',
         defaultValue: null,
+        timestamp: null
     }
 
     // will trigger whenever setState() is called, or parent passes in new props.
     static getDerivedStateFromProps(nextProps, prevState) {
         if (nextProps.src !== prevState.prevSrc ||
             nextProps.name !== prevState.prevName ||
-            nextProps.theme !== prevState.prevTheme
+            nextProps.theme !== prevState.prevTheme ||
+            nextProps.timestamp !== prevState.timestamp
         ) {
             // if we pass in new props, we re-validate
             const newPartialState = {
@@ -75,8 +77,10 @@ class ReactJsonView extends React.PureComponent {
                 validationMessage: nextProps.validationMessage,
                 prevSrc: nextProps.src,
                 prevName: nextProps.name,
-                prevTheme: nextProps.theme
+                prevTheme: nextProps.theme,
+                timestamp: nextProps.timestamp
             };
+
             return ReactJsonView.validateState(newPartialState);
         }
         return null;
@@ -222,7 +226,7 @@ class ReactJsonView extends React.PureComponent {
         } = ObjectAttributes.get(
             this.rjvId, 'action', 'variable-update'
         );
-        const { onEdit, onDelete, onAdd } = this.props;
+        const { onEdit, onDelete, onAdd, timestamp } = this.props;
 
         const { src } = this.state;
 
@@ -252,7 +256,8 @@ class ReactJsonView extends React.PureComponent {
         if (result !== false) {
             ObjectAttributes.set(this.rjvId, 'global', 'src', updated_src);
             this.setState({
-                src: updated_src
+                src: updated_src,
+                timestamp: timestamp
             });
         } else {
             this.setState({
